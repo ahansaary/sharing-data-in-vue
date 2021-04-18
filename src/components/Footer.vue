@@ -37,14 +37,12 @@
 </template>
 
 <script>
+import TodosMixin from '../mixins/todos';
+
 export default {
   name: 'Footer',
-  
-  props: {
-    todos: Array,
-    remaining: Number,
-    visibility: String
-  },
+
+  mixins: [TodosMixin],
 
   filters: {
     pluralize: function(n) {

@@ -17,13 +17,12 @@
 
 <script>
 import {todoStorage} from '../services/storage'
+import TodosMixin from '../mixins/todos'
 
 export default {
   name: 'Header',
 
-  props: {
-    todos: Array
-  },
+  mixins: [TodosMixin],
 
   data() {
     return {

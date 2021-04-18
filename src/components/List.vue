@@ -32,15 +32,13 @@
 </template>
 
 <script>
+import TodosMixin from '../mixins/todos';
 import {filters} from '../services/filters'
 
 export default {
   name: 'List',
 
-  props: {
-    todos: Array,
-    visibility: String
-  },
+  mixins: [TodosMixin],
 
   data() {
     return {
@@ -51,10 +49,6 @@ export default {
   computed: {
     filteredTodos() {
       return filters[this.visibility](this.todos);
-    },
-
-    remaining() {
-      return filters.active(this.todos).length;
     },
   },
 

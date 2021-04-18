@@ -4,36 +4,24 @@
     v-show="todos.length"
     v-cloak
   >
-    <Complete
-      :todos="todos"
-      :remaining="remaining"
-      @new-todos="$emit('new-todos', $event)"
-    />
-
-    <List
-      :todos="todos"
-      :remaining="remaining"
-      :visibility="visibility"
-    />
+    <Complete />
+    <List />
   </section>
 </template>
 
 <script>
+import TodosMixin from '../mixins/todos'
 import Complete from './Complete'
 import List from './List'
 
 export default {
   name: 'Main',
 
+  mixins: [TodosMixin],
+
   components: {
     List,
     Complete
-  },
-
-  props: {
-    todos: Array,
-    remaining: Number,
-    visibility: String
   },
 }
 </script>

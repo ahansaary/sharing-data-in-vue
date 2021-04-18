@@ -17,15 +17,13 @@
 </template>
 
 <script>
+import TodosMixin from '../mixins/todos';
 import {filters} from '../services/filters'
 
 export default {
   name: 'Complete',
 
-  props: {
-    todos: Array,
-    remaining: Number
-  },
+  mixins: [TodosMixin],
 
   computed: {
     allDone: {
@@ -43,7 +41,7 @@ export default {
 
   methods: {
     removeCompleted: function() {
-      this.$emit('new-todos', filters.active(this.todos));
+      this.todos = filters.active(this.todos);
     }
   },
 }
