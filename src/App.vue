@@ -1,28 +1,60 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <section class="todoapp">
+      <Header :todos="todos" />
+
+      <Main
+        :todos="todos"
+        :remaining="remaining"
+        :visibility="visibility"
+        @new-todos="todos = $event"
+      />
+
+      <Footer
+        :todos="todos"
+        :remaining="remaining"
+        :visibility="visibility"
+      />
+    </section>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {todoStorage} from './services/storage'
+import {filters} from './services/filters'
+import Header from './components/Header'
+import Main from './components/Main'
 
 export default {
   name: 'App',
+
   components: {
-    HelloWorld
-  }
+    Header,
+    Main,
+  },
+
+  data() {
+    return {
+      todos: todoStorage.fetch(),
+      visibility: "all"
+    }
+  },
+
+  watch: {
+    todos: {
+      handler(todos) {
+        todoStorage.save(todos);
+      },
+      deep: true
+    }
+  },
+
+  computed: {
+    remaining: function() {
+      return filters.active(this.todos).length;
+    },
+  },
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss" src="./App.scss"></style>
