@@ -24,6 +24,7 @@ import {todoStorage} from './services/storage'
 import {filters} from './services/filters'
 import Header from './components/Header'
 import Main from './components/Main'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
@@ -31,6 +32,7 @@ export default {
   components: {
     Header,
     Main,
+    Footer
   },
 
   data() {

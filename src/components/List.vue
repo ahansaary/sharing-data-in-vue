@@ -52,10 +52,6 @@ export default {
     filteredTodos() {
       return filters[this.visibility](this.todos);
     },
-
-    remaining() {
-      return filters.active(this.todos).length;
-    },
   },
 
   methods: {
