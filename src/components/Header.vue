@@ -23,17 +23,8 @@ export default {
 
   data() {
     return {
-      todos: [],
       newTodo: ''
     }
-  },
-
-  created() {
-    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
-  },
-
-  beforeDestroy() {
-    this.todosSub.unsubscribe()
   },
 
   methods: {

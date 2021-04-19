@@ -1,12 +1,15 @@
 import '@babel/polyfill'
 import 'mutationobserver-shim'
 import Vue from 'vue'
+import VueRx from 'vue-rx'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
-import {filters} from './services/filters'
+import { filters } from './services/filters'
 import { todosService } from './services/todos'
 
 Vue.config.productionTip = false
+
+Vue.use(VueRx)
 
 const app = new Vue({
   render: h => h(App),

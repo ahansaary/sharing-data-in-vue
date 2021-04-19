@@ -40,31 +40,26 @@ export default {
 
   data() {
     return {
-      todos: [],
-      visibility: "all",
       editedTodo: null,
+    }
+  },
+
+  subscriptions() {
+    return {
+      todos$: todosService.todos$,
+      visibility$: todosService.visibility$,
     }
   },
 
   computed: {
     filteredTodos() {
-      return filters[this.visibility](this.todos);
+      return filters[this.visibility$](this.todos$);
     },
-  },
-
-  created() {
-    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
-    this.visibilitySub = todosService.visibility$.subscribe(visibility => this.visibility = visibility)
-  },
-
-  beforeDestroy() {
-    this.todosSub.unsubscribe()
-    this.visibilitySub.unsubscribe()
   },
 
   methods: {
     removeTodo(todo) {
-      const index = this.todos.indexOf(todo)
+      const index = this.todos$.indexOf(todo)
       todosService.removeTodo(index)
     },
 

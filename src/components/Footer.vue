@@ -1,17 +1,17 @@
 <template>
   <footer
     class="footer"
-    v-show="todos.length"
+    v-show="todos$.length"
     v-cloak
   >
     <span class="todo-count">
-      <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left
+      <strong>{{ remaining$ }}</strong> {{ remaining$ | pluralize }} left
     </span>
     <ul class="filters">
       <li>
         <a
           href="#/all"
-          :class="{ selected: visibility == 'all' }"
+          :class="{ selected: visibility$ == 'all' }"
         >
           All
         </a>
@@ -19,7 +19,7 @@
       <li>
         <a
           href="#/active"
-          :class="{ selected: visibility == 'active' }"
+          :class="{ selected: visibility$ == 'active' }"
         >
           Uncomplete
         </a>
@@ -27,7 +27,7 @@
       <li>
         <a
           href="#/completed"
-          :class="{ selected: visibility == 'completed' }"
+          :class="{ selected: visibility$ == 'completed' }"
         >
           Completed
         </a>
@@ -42,24 +42,12 @@ import { todosService } from '../services/todos'
 export default {
   name: 'Footer',
 
-  data() {
+  subscriptions() {
     return {
-      todos: [],
-      visibility: "all",
-      remaining: 0,
+      todos$: todosService.todos$,
+      visibility$: todosService.visibility$,
+      remaining$: todosService.remaining$,
     }
-  },
-  
-  created() {
-    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
-    this.visibilitySub = todosService.visibility$.subscribe(visibility => this.visibility = visibility)
-    this.remainingSub = todosService.remaining$.subscribe(remaining => this.remaining = remaining)
-  },
-
-  beforeDestroy() {
-    this.todosSub.unsubscribe()
-    this.visibilitySub.unsubscribe()
-    this.remainingSub.unsubscribe()
   },
 
   filters: {

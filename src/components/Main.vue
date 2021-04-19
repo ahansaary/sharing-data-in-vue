@@ -1,7 +1,7 @@
 <template>
   <section
     class="main"
-    v-show="todos.length"
+    v-show="todos$.length"
     v-cloak
   >
     <Complete />
@@ -22,18 +22,10 @@ export default {
     Complete
   },
 
-  data() {
+  subscriptions() {
     return {
-      todos: [],
+      todos$: todosService.todos$,
     }
-  },
-
-  created() {
-    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
-  },
-
-  beforeDestroy() {
-    this.todosSub.unsubscribe()
   },
 }
 </script>

@@ -22,33 +22,23 @@ import { todosService } from '../services/todos';
 export default {
   name: 'Complete',
 
-  data() {
+  subscriptions() {
     return {
-      todos: [],
-      remaining: 0,
+      todos$: todosService.todos$,
+      remaining$: todosService.remaining$,
     }
   },
 
   computed: {
     allDone: {
       get: function() {
-        return this.remaining === 0;
+        return this.remaining$ === 0;
       },
 
       set: function(value) {
         todosService.markAllAsCompleted(value)
       }
     }
-  },
-
-  created() {
-    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
-    this.remainingSub = todosService.remaining$.subscribe(remaining => this.remaining = remaining)
-  },
-
-  beforeDestroy() {
-    this.todosSub.unsubscribe()
-    this.remainingSub.unsubscribe()
   },
 
   methods: {
