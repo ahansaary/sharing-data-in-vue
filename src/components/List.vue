@@ -1,7 +1,7 @@
 <template>
   <ul class="todo-list">
     <li
-      v-for="todo in filteredTodos"
+      v-for="todo in vm.filteredTodos"
       class="todo"
       :key="todo.id"
       :class="{ completed: todo.completed, editing: todo == editedTodo }"
@@ -32,31 +32,23 @@
 </template>
 
 <script>
-import {filters} from '../services/filters'
+import { observer } from 'mobx-vue'
+import { store } from '../store/todos'
 
-export default {
+export default observer({
   name: 'List',
-
-  props: {
-    todos: Array,
-    visibility: String
-  },
 
   data() {
     return {
+      vm: store,
       editedTodo: null,
     }
   },
 
-  computed: {
-    filteredTodos() {
-      return filters[this.visibility](this.todos);
-    },
-  },
-
   methods: {
     removeTodo(todo) {
-      this.todos.splice(this.todos.indexOf(todo), 1);
+      const index = this.vm.todos.indexOf(todo)
+      this.vm.removeTodo(index)
     },
 
     editTodo(todo) {
@@ -86,5 +78,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

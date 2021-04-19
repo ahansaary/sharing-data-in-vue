@@ -1,28 +1,21 @@
 <template>
   <section
     class="main"
-    v-show="todos.length"
+    v-show="vm.todos.length"
     v-cloak
   >
-    <Complete
-      :todos="todos"
-      :remaining="remaining"
-      @new-todos="$emit('new-todos', $event)"
-    />
-
-    <List
-      :todos="todos"
-      :remaining="remaining"
-      :visibility="visibility"
-    />
+    <Complete />
+    <List />
   </section>
 </template>
 
 <script>
+import { observer } from 'mobx-vue'
+import { store } from '../store/todos'
 import Complete from './Complete'
 import List from './List'
 
-export default {
+export default observer({
   name: 'Main',
 
   components: {
@@ -30,10 +23,10 @@ export default {
     Complete
   },
 
-  props: {
-    todos: Array,
-    remaining: Number,
-    visibility: String
+  data() {
+    return {
+      vm: store
+    }
   },
-}
+})
 </script>

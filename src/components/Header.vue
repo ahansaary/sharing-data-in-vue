@@ -16,17 +16,15 @@
 </template>
 
 <script>
-import {todoStorage} from '../services/storage'
+import { observer } from 'mobx-vue'
+import { store } from '../store/todos'
 
-export default {
+export default observer({
   name: 'Header',
-
-  props: {
-    todos: Array
-  },
 
   data() {
     return {
+      vm: store,
       newTodo: ''
     }
   },
@@ -36,14 +34,10 @@ export default {
       const value = this.newTodo && this.newTodo.trim();
       if (!value) return
 
-      this.todos.push({
-        id: todoStorage.uid++,
-        title: value,
-        completed: false
-      });
+      this.vm.addTodo(value)
 
       this.newTodo = "";
     }
   }
-}
+})
 </script>

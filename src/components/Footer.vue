@@ -1,17 +1,17 @@
 <template>
   <footer
     class="footer"
-    v-show="todos.length"
+    v-show="vm.todos.length"
     v-cloak
   >
     <span class="todo-count">
-      <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left
+      <strong>{{ vm.remaining }}</strong> {{ vm.remaining | pluralize }} left
     </span>
     <ul class="filters">
       <li>
         <a
           href="#/all"
-          :class="{ selected: visibility == 'all' }"
+          :class="{ selected: vm.visibility == 'all' }"
         >
           All
         </a>
@@ -19,7 +19,7 @@
       <li>
         <a
           href="#/active"
-          :class="{ selected: visibility == 'active' }"
+          :class="{ selected: vm.visibility == 'active' }"
         >
           Uncomplete
         </a>
@@ -27,7 +27,7 @@
       <li>
         <a
           href="#/completed"
-          :class="{ selected: visibility == 'completed' }"
+          :class="{ selected: vm.visibility == 'completed' }"
         >
           Completed
         </a>
@@ -37,13 +37,16 @@
 </template>
 
 <script>
-export default {
+import { observer } from 'mobx-vue'
+import { store } from '../store/todos'
+
+export default observer({
   name: 'Footer',
-  
-  props: {
-    todos: Array,
-    remaining: Number,
-    visibility: String
+
+  data() {
+    return {
+      vm: store
+    }
   },
 
   filters: {
@@ -51,5 +54,5 @@ export default {
       return n === 1 ? "task" : "tasks";
     }
   },
-}
+})
 </script>

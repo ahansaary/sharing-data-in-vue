@@ -3,7 +3,8 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
-import {filters} from './services/filters'
+import { filters } from './services/filters'
+import { store } from './store/todos'
 
 Vue.config.productionTip = false
 
@@ -15,10 +16,10 @@ const app = new Vue({
 function onHashChange() {
   var visibility = window.location.hash.replace(/#\/?/, "");
   if (filters[visibility]) {
-    app.visibility = visibility;
+    store.visibility = visibility;
   } else {
     window.location.hash = "";
-    app.visibility = "all";
+    store.visibility = "all";
   }
 }
 

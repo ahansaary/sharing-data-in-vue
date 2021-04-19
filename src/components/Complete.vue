@@ -9,7 +9,7 @@
     <label for="toggle-all">Complete all tasks</label>
     <button
       class="clear-completed"
-      @click="removeCompleted"
+      @click="vm.removeCompleted()"
     >
       Clear completed
     </button>
@@ -17,34 +17,30 @@
 </template>
 
 <script>
-import {filters} from '../services/filters'
+import { observer } from 'mobx-vue'
+import { store } from '../store/todos'
 
-export default {
+export default observer({
   name: 'Complete',
 
-  props: {
-    todos: Array,
-    remaining: Number
+  data() {
+    return {
+      vm: store
+    }
   },
 
   computed: {
     allDone: {
       get: function() {
-        return this.remaining === 0;
+        return this.vm.remaining === 0;
       },
 
       set: function(value) {
-        this.todos.forEach(function(todo) {
+        this.vm.todos.forEach(function(todo) {
           todo.completed = value;
         });
       }
     }
   },
-
-  methods: {
-    removeCompleted: function() {
-      this.$emit('new-todos', filters.active(this.todos));
-    }
-  },
-}
+})
 </script>
