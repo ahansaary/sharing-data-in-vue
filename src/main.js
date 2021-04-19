@@ -4,6 +4,7 @@ import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
 import {filters} from './services/filters'
+import { todosService } from './services/todos'
 
 Vue.config.productionTip = false
 
@@ -15,10 +16,10 @@ const app = new Vue({
 function onHashChange() {
   var visibility = window.location.hash.replace(/#\/?/, "");
   if (filters[visibility]) {
-    app.visibility = visibility;
+    todosService.setVisibility(visibility)
   } else {
     window.location.hash = "";
-    app.visibility = "all";
+    todosService.setVisibility('all')
   }
 }
 

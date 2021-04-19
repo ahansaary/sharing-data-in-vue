@@ -33,17 +33,15 @@
 
 <script>
 import {filters} from '../services/filters'
+import { todosService } from '../services/todos';
 
 export default {
   name: 'List',
 
-  props: {
-    todos: Array,
-    visibility: String
-  },
-
   data() {
     return {
+      todos: [],
+      visibility: "all",
       editedTodo: null,
     }
   },
@@ -52,15 +50,22 @@ export default {
     filteredTodos() {
       return filters[this.visibility](this.todos);
     },
+  },
 
-    remaining() {
-      return filters.active(this.todos).length;
-    },
+  created() {
+    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
+    this.visibilitySub = todosService.visibility$.subscribe(visibility => this.visibility = visibility)
+  },
+
+  beforeDestroy() {
+    this.todosSub.unsubscribe()
+    this.visibilitySub.unsubscribe()
   },
 
   methods: {
     removeTodo(todo) {
-      this.todos.splice(this.todos.indexOf(todo), 1);
+      const index = this.todos.indexOf(todo)
+      todosService.removeTodo(index)
     },
 
     editTodo(todo) {

@@ -17,14 +17,16 @@
 </template>
 
 <script>
-import {filters} from '../services/filters'
+import { todosService } from '../services/todos';
 
 export default {
   name: 'Complete',
 
-  props: {
-    todos: Array,
-    remaining: Number
+  data() {
+    return {
+      todos: [],
+      remaining: 0,
+    }
   },
 
   computed: {
@@ -34,16 +36,24 @@ export default {
       },
 
       set: function(value) {
-        this.todos.forEach(function(todo) {
-          todo.completed = value;
-        });
+        todosService.markAllAsCompleted(value)
       }
     }
   },
 
+  created() {
+    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
+    this.remainingSub = todosService.remaining$.subscribe(remaining => this.remaining = remaining)
+  },
+
+  beforeDestroy() {
+    this.todosSub.unsubscribe()
+    this.remainingSub.unsubscribe()
+  },
+
   methods: {
     removeCompleted: function() {
-      this.$emit('new-todos', filters.active(this.todos));
+      todosService.removeCompleted();
     }
   },
 }

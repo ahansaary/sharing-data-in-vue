@@ -16,19 +16,24 @@
 </template>
 
 <script>
-import {todoStorage} from '../services/storage'
+import {todosService} from '../services/todos'
 
 export default {
   name: 'Header',
 
-  props: {
-    todos: Array
-  },
-
   data() {
     return {
+      todos: [],
       newTodo: ''
     }
+  },
+
+  created() {
+    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
+  },
+
+  beforeDestroy() {
+    this.todosSub.unsubscribe()
   },
 
   methods: {
@@ -36,11 +41,7 @@ export default {
       const value = this.newTodo && this.newTodo.trim();
       if (!value) return
 
-      this.todos.push({
-        id: todoStorage.uid++,
-        title: value,
-        completed: false
-      });
+      todosService.addTodo(value);
 
       this.newTodo = "";
     }

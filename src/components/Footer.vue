@@ -37,13 +37,29 @@
 </template>
 
 <script>
+import { todosService } from '../services/todos'
+
 export default {
   name: 'Footer',
+
+  data() {
+    return {
+      todos: [],
+      visibility: "all",
+      remaining: 0,
+    }
+  },
   
-  props: {
-    todos: Array,
-    remaining: Number,
-    visibility: String
+  created() {
+    this.todosSub = todosService.todos$.subscribe(todos => this.todos = todos)
+    this.visibilitySub = todosService.visibility$.subscribe(visibility => this.visibility = visibility)
+    this.remainingSub = todosService.remaining$.subscribe(remaining => this.remaining = remaining)
+  },
+
+  beforeDestroy() {
+    this.todosSub.unsubscribe()
+    this.visibilitySub.unsubscribe()
+    this.remainingSub.unsubscribe()
   },
 
   filters: {
