@@ -12,6 +12,7 @@
 import {todoStorage} from './services/storage'
 import Header from './components/Header'
 import Main from './components/Main'
+import Footer from './components/Footer'
 import TodosMixin from './mixins/todos'
 
 export default {
@@ -20,6 +21,7 @@ export default {
   components: {
     Header,
     Main,
+    Footer
   },
 
   mixins: [TodosMixin],
